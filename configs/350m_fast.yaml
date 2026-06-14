@@ -1,0 +1,49 @@
+# CogNet 350M — Fast iteration config (smaller model for rapid prototyping)
+model_size: "350m"
+vocab_size: 32000
+max_seq_len: 4096
+dropout: 0.0
+use_gradient_checkpointing: false  # Not needed for 350M
+
+# Data
+dataset_paths:
+  - "wikimedia/wikipedia"
+  - "bigcode/the-stack"
+dataset_splits:
+  - "train"
+  - "train"
+data_cache_dir: "./data_cache"
+max_tokens: 10000000000  # 10B tokens
+preprocessing_num_workers: 8
+
+# Training
+batch_size: 8
+gradient_accumulation_steps: 4
+max_lr: 5.0e-4
+min_lr: 5.0e-5
+warmup_steps: 500
+max_steps: 50000
+weight_decay: 0.1
+beta1: 0.9
+beta2: 0.95
+grad_clip: 1.0
+
+# Precision
+dtype: "bfloat16"
+
+# Distributed
+use_fsdp: true
+compile_model: true
+
+# Checkpointing
+checkpoint_dir: "./checkpoints"
+save_interval: 2000
+eval_interval: 500
+log_interval: 5
+async_checkpoint: true
+
+# Generation
+gen_interval: 1000
+gen_max_tokens: 64
+gen_temperature: 0.8
+gen_top_k: 40
